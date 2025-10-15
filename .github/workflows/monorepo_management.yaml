@@ -1,0 +1,71 @@
+name: Exercise 12
+on:
+  push:
+  pull_request:
+jobs:
+  find_changes:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      
+      - name: Filter changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            project1:
+              - 'packages/project1/**'
+            project2:
+              - 'packages/project2/**'
+            project3:
+              - 'packages/project3/**'
+            common:
+              - 'config/jest/**'
+              - 'package.json'
+              - 'package-lock.json'
+      - name: Build matrix
+        run: |
+          CHANGES='${{ steps.filter.outputs.changes }}'
+          echo "Detected changes: $CHANGES"
+          if echo "$CHANGES" | grep -q '"common"'; then
+            MATRIX='["project1","project2","project3"]'
+          else
+            MATRIX="$CHANGES"
+          fi
+          echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
+  test_changes:
+    needs: find_changes
+    if: needs.find_changes.outputs.matrix != '[]'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJSON(needs.find_changes.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+        
+      - name: Dependencies
+        run: npm ci
+      
+      - name: Test changed projects
+        run: npm test
+        working-directory: packages/${{ matrix.package }}
+
+  no_changes:
+    needs: find_changes
+    if: needs.find_changes.outputs.matrix == '[]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Warn no changes
+        run: echo "There were no changed packages. Skipping tests..."
+
