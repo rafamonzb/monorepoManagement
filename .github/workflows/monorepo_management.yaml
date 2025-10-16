@@ -54,18 +54,14 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: packages/package-lock.json
         
       - name: Dependencies
-        working-directory: packages/${{ matrix.package }}
-        run: |
-          pwd
-          npm ci
+        run: npm ci
       
       - name: Test changed projects
-        run: |
-          pwd
-          npm test
-        # working-directory: packages/${{ matrix.package }}
+        working-directory: packages/${{ matrix.package }}
+        run: npm test
 
   no_changes:
     needs: find_changes
