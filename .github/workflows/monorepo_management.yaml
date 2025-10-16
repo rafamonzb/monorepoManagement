@@ -56,6 +56,15 @@ jobs:
           cache: 'npm'
           cache-dependency-path: packages/package-lock.json
         
+      - name: Find out where tf I'm at
+        run: |
+          echo "pwd"
+          pwd
+          echo "ls"
+          ls
+          echo "ls .."
+          ls ..
+          
       - name: Dependencies
         run: |
           if [-e package-lock.json]; then
