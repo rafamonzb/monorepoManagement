@@ -56,11 +56,16 @@ jobs:
           cache: 'npm'
         
       - name: Dependencies
-        run: npm ci
+        working-directory: packages/${{ matrix.package }}
+        run: |
+          pwd
+          npm ci
       
       - name: Test changed projects
-        run: npm test
-        working-directory: packages/${{ matrix.package }}
+        run: |
+          pwd
+          npm test
+        # working-directory: packages/${{ matrix.package }}
 
   no_changes:
     needs: find_changes
