@@ -55,15 +55,6 @@ jobs:
           node-version: 20
           cache: 'npm'
           cache-dependency-path: packages/package-lock.json
-        
-      - name: Find out where tf I'm at
-        run: |
-          echo "pwd"
-          pwd
-          echo "ls"
-          ls
-          echo "ls packages"
-          ls packages
           
       - name: Dependencies
         working-directory: packages
@@ -76,7 +67,9 @@ jobs:
       
       - name: Test changed projects
         working-directory: packages/${{ matrix.package }}
-        run: npm test
+        run: |
+          pwd
+          npm test
 
   no_changes:
     needs: find_changes
