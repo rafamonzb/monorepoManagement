@@ -60,7 +60,7 @@ jobs:
         run: npm ci
       
       - name: Test changed projects
-        run: npx jest "packages/${{ matris.project }}/tests" --ci --runInBand
+        run: npx jest "packages/${{ matrix.project }}/tests" --ci --runInBand
 
   no_changes:
     needs: find_changes
