@@ -10,8 +10,8 @@ module.exports = {
   testEnvironment: 'jsdom',
   extensionsToTreatAsEsm: [],
   transform: {
-    '^.+\\.(css|scss|sass|less)$': '<rootDir>/packages/config/jest/fileTransform.cjs',
-    '^.+\\.(html)$': '<rootDir>/packages/config/jest/fileTransform.cjs'
+    '^.+\\.(css|scss|sass|less)$': require.resolve('./packages/config/jest/fileTransform.cjs'),
+    '^.+\\.(html)$': require.resolve('./packages/config/jest/fileTransform.cjs')
   },
   testPathIgnorePatterns: [
     '/node_modules/',

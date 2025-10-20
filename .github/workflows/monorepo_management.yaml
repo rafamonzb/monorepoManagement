@@ -60,7 +60,7 @@ jobs:
         run: npm ci --no-audit --no-fund --omit=optional --loglevel=warn
       
       - name: Test changed projects
-        run: npx jest "packages/${{ matrix.project }}/tests" --ci --runInBand
+        run: npx jest --config=jest.config.cjs "packages/${{ matrix.project }}/tests" --ci --runInBand
 
   no_changes:
     needs: find_changes
