@@ -54,9 +54,10 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
+          cache-dependency-path: package-lock.json
           
       - name: Dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund --omit=optional --loglevel=warn
       
       - name: Test changed projects
         run: npx jest "packages/${{ matrix.project }}/tests" --ci --runInBand

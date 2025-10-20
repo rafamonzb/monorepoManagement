@@ -1,6 +1,6 @@
 'use strict'
 
-const path = required('path');
+const path = require('path');
 
 module.exports = {
   testMatch: [
