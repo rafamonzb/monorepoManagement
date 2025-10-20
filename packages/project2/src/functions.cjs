@@ -1,5 +1,5 @@
 // const button = document.getElementById("button");
-// Add a change in a project XIV
+// Add a change in a project XV
 
 const currentNameE1 = document.getElementById("current-name");
 const nextNameE1 = document.getElementById("next-name");
