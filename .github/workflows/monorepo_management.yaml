@@ -48,13 +48,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
           
       - name: Dependencies
         run: |
@@ -63,6 +56,13 @@ jobs:
           else
           npm i
           fi
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
       
       - name: Test changed projects
         run: npx jest "packages/${{ matrix.project }}/tests" --ci --runInBand
