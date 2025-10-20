@@ -57,7 +57,12 @@ jobs:
           cache-dependency-path: package-lock.json
           
       - name: Dependencies
-        run: npm ci
+        run: |
+          if [-e package-lock.json]; then
+          npm ci
+          else
+          npm i
+          fi
       
       - name: Test changed projects
         run: npx jest "packages/${{ matrix.project }}/tests" --ci --runInBand
