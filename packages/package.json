@@ -1,7 +1,7 @@
 {
   "type": "commonjs",
   "scripts": {
-    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand",
+    "test": "jest --ci",
     "lint": "eslint --ext .cjs"
   },
   "devDependencies": {

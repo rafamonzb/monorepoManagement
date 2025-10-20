@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-const mod = require('../project1/src/functions.cjs');
+const mod = require('../src/functions.cjs');
 
 beforeEach(() => {
   document.body.innerHTML =`

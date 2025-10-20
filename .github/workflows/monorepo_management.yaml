@@ -39,12 +39,12 @@ jobs:
           echo "matrix=$MATRIX" >> "$GITHUB_OUTPUT"
   test_changes:
     needs: find_changes
-    if: needs.find_changes.outputs.matrix != '[]'
+    if: ${{ needs.find_changes.outputs.matrix != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        package: ${{ fromJSON(needs.find_changes.outputs.matrix) }}
+        project: ${{ fromJSON(needs.find_changes.outputs.matrix) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -54,22 +54,13 @@ jobs:
         with:
           node-version: 20
           cache: 'npm'
-          cache-dependency-path: packages/package-lock.json
+          cache-dependency-path: package-lock.json
           
       - name: Dependencies
-        working-directory: packages
-        run: |
-          if [-e package-lock.json]; then
-          npm ci
-          else
-          npm i
-          fi
+        run: npm ci
       
       - name: Test changed projects
-        working-directory: packages/${{ matrix.package }}
-        run: |
-          pwd
-          npm test
+        run: npx jest "packages/${{ matris.project }}/tests" --ci --runInBand
 
   no_changes:
     needs: find_changes

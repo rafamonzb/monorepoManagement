@@ -1,9 +1,11 @@
 'use strict';
 
-const path = require('path');
-
 module.exports = {
-  process(src, filename) {
-    return `module.exports = ${JSON.stringify(path.basename(filename))};`;
+  process(_src, filename) {
+    // return `module.exports = ${JSON.stringify(path.basename(filename))};`;
+    return { code: 'module.exports = {};'};
+  },
+  getCacheKey() {
+    return 'fileTransformV1';
   },
 };
